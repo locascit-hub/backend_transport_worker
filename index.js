@@ -70,13 +70,6 @@ async function generateAuthTokens(share_link) {
 }
 
 
-
-
-
-
-
-
-
 const fetchBusData = async (authToken,share_link,obuIds) => {
 const test= await fetch('https://ialert2.ashokleyland.com/ialertelite/apiv1/map/track-vehicle', {
   method: 'POST',
@@ -156,8 +149,6 @@ async function stopFetching() {
 }
 
 
-
-
 async function main() {
   // Example: Insert data into "incharges" table
   const { data: urlDoc, error: insertError } = await supabase
@@ -172,10 +163,10 @@ async function main() {
   console.log(buses_obu_ids,'hello')
   const share_link = urlDoc.url;
   console.log(share_link);
-  const authToken = await generateAuthTokens(share_link);
-  console.log("Generated Auth Tokens:", authToken);
+  // const authToken = await generateAuthTokens(share_link);
+  // console.log("Generated Auth Tokens:", authToken);
 
-  await location_job(authToken.Auth_Token, share_link);
+  //await location_job(authToken.Auth_Token, share_link);
 }
 
 main();
