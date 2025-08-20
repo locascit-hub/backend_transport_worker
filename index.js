@@ -2,10 +2,18 @@ import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 import {buses_obu_ids} from "./buses.js";
 import express from "express";
+import cors from "cors";
 const app = express();
-const port = process.env.PORT || 3000;
+
 
 dotenv.config();
+
+const port = process.env.PORT || 3000;
+
+
+app.use(cors()); // allow all origins
+app.use(express.json());
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY; // use service_role key only on backend
 
@@ -189,3 +197,6 @@ app.post("/start", (req, res) => {
   main();
 
 });
+
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
