@@ -2,7 +2,7 @@ name: Trigger Render Job
 
 on:
   schedule:
-    - cron: "30 8 * * *"   # 2:00 PM IST
+    - cron: "40 8 * * *"  # 2:10 PM IST
   workflow_dispatch: # allows manual trigger
 
 jobs:
