@@ -1,10 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 import {buses_obu_ids} from "./buses.js";
+import express from "express";
+const app = express();
+const port = process.env.PORT || 3000;
 
 dotenv.config();
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY; // use service_role key only on backend
+
+
+let timer = null;
+let times=0;
+let interval=600000; // 10 minutes
 
 // Create client
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -70,13 +78,6 @@ async function generateAuthTokens(share_link) {
 }
 
 
-
-
-
-
-
-
-
 const fetchBusData = async (authToken,share_link,obuIds) => {
 const test= await fetch('https://ialert2.ashokleyland.com/ialertelite/apiv1/map/track-vehicle', {
   method: 'POST',
@@ -98,8 +99,6 @@ const data=await test.json();
 console.log(data);
 return data.data.vehicleDetails;
 }
-
-let timer;
 
 async function UpdateLocationsBatch(vehicles) {
   const updates = vehicles.map(v => ({
@@ -124,7 +123,7 @@ async function location_job(auth_token, share_link) {
   let i = 0;
   timer = setInterval(async () => {
     try {
-      if (i >= 2) {
+      if (i >= times) {
         console.log("Stopping fetching after 2 hours.");
         await stopFetching();
         return;
@@ -143,7 +142,7 @@ async function location_job(auth_token, share_link) {
       await stopFetching();
       return;
     }
-  }, 180000); // 3 minutes
+  }, interval); // Use the dynamic interval
 }
 
 
@@ -154,8 +153,6 @@ async function stopFetching() {
         console.log("Fetching stopped.");
     }
 }
-
-
 
 
 async function main() {
@@ -172,10 +169,23 @@ async function main() {
   console.log(buses_obu_ids,'hello')
   const share_link = urlDoc.url;
   console.log(share_link);
-  const authToken = await generateAuthTokens(share_link);
-  console.log("Generated Auth Tokens:", authToken);
+  // const authToken = await generateAuthTokens(share_link);
+  // console.log("Generated Auth Tokens:", authToken);
 
-  await location_job(authToken.Auth_Token, share_link);
+  //await location_job(authToken.Auth_Token, share_link);
 }
 
-main();
+app.post("/start", (req, res) => {
+  const { loctimes, locinterval } = req.body;
+  times = parseInt(loctimes || "0", 10);
+  interval = parseInt(locinterval || "60000", 10); // default 1 min
+
+  if (timer) {
+    return res.send("Already running");
+  }
+
+  res.json({ message: "Location fetching started" });
+
+  main();
+
+});
