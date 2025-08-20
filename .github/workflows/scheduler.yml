@@ -1,0 +1,16 @@
+name: Trigger Render Job
+
+on:
+  schedule:
+    - cron: "30 8 * * *"   # 2:00 PM IST
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  trigger-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Render Service
+        run: |
+          curl -X POST "https://backend-transport-worker.onrender.com/start" \
+          -H "Content-Type: application/json" \
+          -d '{"loctimes":3,"locinterval":60000}'
