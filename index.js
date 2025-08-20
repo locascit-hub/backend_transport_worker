@@ -57,13 +57,13 @@ async function generateAuthTokens(share_link) {
   const authId = share_link.split('/').pop(); // Extract authId from share_link
   console.log("Auth ID:", authId);
   const referer =share_link; // Use share_link as referer
-  // const browserTabId = generate13DigitId();
-  // const result = await fetchAuthTokens(authId, referer, browserTabId);
-  // const response={Browser_id:browserTabId,Auth_Token:result.data.result[0].auth_token};
-  const response={
-  Browser_id: '1755666603463',
-  Auth_Token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIxIjpbeyJmaXJzdG5hbWUiOiJDSVQgVFJBTlNQT1JUIiwiZnVsbG5hbWUiOiIiLCJsb2dpbmlkIjoiODc3ODUyMDMzMiIsInBob25ldXBkYXRlIjowLCJ0ZW1wcGFzcyI6ZmFsc2UsInVzZXJpZCI6MTY1MTg3LCJ1c2Vycm9sZSI6Ik9XTkVSIEFETUlOIiwidXNlcnJvbGVpZCI6NiwiZmlyc3R0aW1lbG9naW4iOjEsImxhc3Rsb2dpbiI6MTc1NTY3NTQ1OS4wLCJsZHBhdGgiOiJob21lIiwibG9naW5zdGF0dXMiOiJ2YWxpZCIsInBsYXRmb3JtIjoidyIsInVuaXBhc3MiOmZhbHNlLCJ0b2tlbnZhbCI6IjE3NTU2NjY0NjAxNjUxODcifV0sInN1YiI6Ijg3Nzg1MjAzMzIiLCJleHAiOjE3NTU2ODk5MjB9.HEkgEkCxPFtRUeKxYt7oBvZrvtJBWiLe0kd7jwEABIk'
-}
+  const browserTabId = generate13DigitId();
+  const result = await fetchAuthTokens(authId, referer, browserTabId);
+  const response={Browser_id:browserTabId,Auth_Token:result.data.result[0].auth_token};
+//   const response={
+//   Browser_id: '1755666603463',
+//   Auth_Token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIxIjpbeyJmaXJzdG5hbWUiOiJDSVQgVFJBTlNQT1JUIiwiZnVsbG5hbWUiOiIiLCJsb2dpbmlkIjoiODc3ODUyMDMzMiIsInBob25ldXBkYXRlIjowLCJ0ZW1wcGFzcyI6ZmFsc2UsInVzZXJpZCI6MTY1MTg3LCJ1c2Vycm9sZSI6Ik9XTkVSIEFETUlOIiwidXNlcnJvbGVpZCI6NiwiZmlyc3R0aW1lbG9naW4iOjEsImxhc3Rsb2dpbiI6MTc1NTY3NTQ1OS4wLCJsZHBhdGgiOiJob21lIiwibG9naW5zdGF0dXMiOiJ2YWxpZCIsInBsYXRmb3JtIjoidyIsInVuaXBhc3MiOmZhbHNlLCJ0b2tlbnZhbCI6IjE3NTU2NjY0NjAxNjUxODcifV0sInN1YiI6Ijg3Nzg1MjAzMzIiLCJleHAiOjE3NTU2ODk5MjB9.HEkgEkCxPFtRUeKxYt7oBvZrvtJBWiLe0kd7jwEABIk'
+// }
 
   console.log("response:", response);
   return response;
