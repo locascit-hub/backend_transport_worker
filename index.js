@@ -177,10 +177,10 @@ async function main() {
   console.log(buses_obu_ids,'hello')
   const share_link = urlDoc.url;
   console.log(share_link);
-  // const authToken = await generateAuthTokens(share_link);
-  // console.log("Generated Auth Tokens:", authToken);
+  const authToken = await generateAuthTokens(share_link);
+  console.log("Generated Auth Tokens:", authToken);
 
-  //await location_job(authToken.Auth_Token, share_link);
+  await location_job(authToken.Auth_Token, share_link);
 }
 
 app.post("/start", (req, res) => {
