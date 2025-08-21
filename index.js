@@ -137,6 +137,11 @@ async function location_job(auth_token, share_link) {
         await stopFetching();
         return;
       }
+      if(i%3==0){
+        await fetch(`${process.env.URL}/wake`, {
+          method: 'GET',
+        });
+      }
 
       const responses = await fetchBusData(auth_token, share_link, buses_obu_ids);
 
@@ -181,6 +186,12 @@ async function main() {
 
   await location_job(authToken.Auth_Token, share_link);
 }
+
+
+app.get("/wake", (req, res) => {
+  console.log("Waking up...");
+  res.send("Woken up!");
+});
 
 app.post("/start", (req, res) => {
   const { loctimes, locinterval } = req.body;
