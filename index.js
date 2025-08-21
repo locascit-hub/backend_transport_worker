@@ -65,7 +65,7 @@ async function fetchAuthTokens(authId, referer, browserTabId) {
   });
 
   const data = await response.json();
-  console.log("Response:", data);
+  //console.log("Response:", data);
   return data;
 }
 
@@ -81,7 +81,7 @@ async function generateAuthTokens(share_link) {
 //   Auth_Token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIxIjpbeyJmaXJzdG5hbWUiOiJDSVQgVFJBTlNQT1JUIiwiZnVsbG5hbWUiOiIiLCJsb2dpbmlkIjoiODc3ODUyMDMzMiIsInBob25ldXBkYXRlIjowLCJ0ZW1wcGFzcyI6ZmFsc2UsInVzZXJpZCI6MTY1MTg3LCJ1c2Vycm9sZSI6Ik9XTkVSIEFETUlOIiwidXNlcnJvbGVpZCI6NiwiZmlyc3R0aW1lbG9naW4iOjEsImxhc3Rsb2dpbiI6MTc1NTY3NTQ1OS4wLCJsZHBhdGgiOiJob21lIiwibG9naW5zdGF0dXMiOiJ2YWxpZCIsInBsYXRmb3JtIjoidyIsInVuaXBhc3MiOmZhbHNlLCJ0b2tlbnZhbCI6IjE3NTU2NjY0NjAxNjUxODcifV0sInN1YiI6Ijg3Nzg1MjAzMzIiLCJleHAiOjE3NTU2ODk5MjB9.HEkgEkCxPFtRUeKxYt7oBvZrvtJBWiLe0kd7jwEABIk'
 // }
 
-  console.log("response:", response);
+  //console.log("response:", response);
   return response;
 }
 
@@ -104,7 +104,7 @@ const test= await fetch('https://ialert2.ashokleyland.com/ialertelite/apiv1/map/
 });
 
 const data=await test.json();
-console.log(data);
+//console.log(data);
 return data.data.vehicleDetails;
 }
 
@@ -113,7 +113,8 @@ async function UpdateLocationsBatch(vehicles) {
     _id: v.obuId,                     // primary key
     lat: v.currentInfo.latitude,
     long: v.currentInfo.longitude,
-    last: new Date(),
+    //last = current timestamp in IST
+    last: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
   }));
 
   const { data, error } = await supabase
@@ -137,7 +138,6 @@ async function location_job(auth_token, share_link) {
         return;
       }
 
-      console.log("Fetching data for obuIds:", buses_obu_ids);
       const responses = await fetchBusData(auth_token, share_link, buses_obu_ids);
 
       // Batch update instead of per-row update
@@ -174,11 +174,10 @@ async function main() {
     console.log("Inserted:", urlDoc);
   }
 
-  console.log(buses_obu_ids,'hello')
   const share_link = urlDoc.url;
   console.log(share_link);
   const authToken = await generateAuthTokens(share_link);
-  console.log("Generated Auth Tokens:", authToken);
+  //console.log("Generated Auth Tokens:", authToken);
 
   await location_job(authToken.Auth_Token, share_link);
 }
