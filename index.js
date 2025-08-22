@@ -113,8 +113,10 @@ async function UpdateLocationsBatch(vehicles) {
     _id: v.obuId,                     // primary key
     lat: v.currentInfo.latitude,
     long: v.currentInfo.longitude,
-    //last = current timestamp in IST
-    last: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    //i=interval in minutes
+    i: interval / 60000,
+    //last = current timestamp
+    last: new Date().toISOString()
   }));
 
   const { data, error } = await supabase
@@ -134,6 +136,7 @@ async function location_job(auth_token, share_link) {
     try {
       if (i >= times) {
         console.log("Stopping fetching after 2 hours.");
+
         await stopFetching();
         return;
       }
@@ -141,6 +144,9 @@ async function location_job(auth_token, share_link) {
         await fetch(`${process.env.URL}/wake`, {
           method: 'GET',
         });
+      }
+      if(i==times-1){
+        interval=-60000;
       }
 
       const responses = await fetchBusData(auth_token, share_link, buses_obu_ids);
